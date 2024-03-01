@@ -1,7 +1,8 @@
-import expres from "express";
+import express from "express";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from "./routes/user.route.js";
+import authRouter from './routes/auth.route.js';
 
 //environment variable config
 dotenv.config();
@@ -16,11 +17,13 @@ mongoose.connect(process.env.MONGO)
 });
 
 //creating a new express app
-const app = expres();
+const app = express();
+
+app.use(express.json());
 
 //apis
 app.use("/api/user", userRouter);
-
+app.use('/api/auth', authRouter)
 
 //connection status on console
 app.listen(3000, ()=> {
