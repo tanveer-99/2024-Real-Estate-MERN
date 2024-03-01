@@ -23,7 +23,19 @@ app.use(express.json());
 
 //apis
 app.use("/api/user", userRouter);
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter);
+
+//error middleware
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    })
+})
+
 
 //connection status on console
 app.listen(3000, ()=> {
